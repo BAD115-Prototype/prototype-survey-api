@@ -24,7 +24,8 @@
 			"extensions": [
 				"rebornix.Ruby",
 				"hridoy.rails-snippets",
-				"Shopify.ruby-lsp"
+				"Shopify.ruby-lsp",
+				"rangav.vscode-thunder-client"
 			]
 		}
 	}

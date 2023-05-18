@@ -23,6 +23,19 @@ bundle install
 ```
 rails s
 ```
+Crear base de datos a partir de la configuración
+
+```
+rails db:create
+```
+Para crear modelos
+```
+rails g model <NombreModelo> <atributo> <atributo>
+```
+Para hacer migraciones
+```
+rails db:migrate
+```
 
 
 
