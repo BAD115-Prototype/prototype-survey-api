@@ -10,14 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_12_220701) do
-  create_table "usuarios", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "nombre_usuario"
-    t.string "email"
-    t.string "password_digest"
-    t.boolean "activo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+ActiveRecord::Schema[7.0].define(version: 2023_05_18_233744) do
+  create_table "criterios", primary_key: "pk_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "descripcion_criterio"
+    t.integer "valor_criterio"
+    t.bigint "fk_encuesta_id", null: false
+    t.bigint "fk_tipo_criterio_id", null: false
+    t.index ["fk_encuesta_id"], name: "index_criterios_on_fk_encuesta_id"
+    t.index ["fk_tipo_criterio_id"], name: "index_criterios_on_fk_tipo_criterio_id"
   end
 
+  create_table "encuestas", primary_key: "pk_encuesta", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "titulo_encuesta"
+    t.text "objetivo_encuesta"
+    t.text "indicacion_encuesta"
+    t.datetime "fecha_creacion_encuesta"
+    t.datetime "fecha_actualizacion_encuesta"
+    t.string "link_encuesta"
+    t.boolean "estado_encuesta"
+    t.datetime "fecha_inicio_encuesta"
+    t.datetime "fecha_finalizacion_encuesta"
+  end
+
+  create_table "tipo_criterios", primary_key: "pk_tipo_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "nombre_tipo_criterios"
+  end
+
+  add_foreign_key "criterios", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
+  add_foreign_key "criterios", "tipo_criterios", column: "fk_tipo_criterio_id", primary_key: "pk_tipo_criterio"
 end
