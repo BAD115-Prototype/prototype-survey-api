@@ -1,9 +1,9 @@
 class RegistrationsController < ApplicationController
   def create
     user = Usuario.create!(
-        email: params['user'][email],
-        password: params['user'][password],
-        password_confirmation: params['user'][password_confirmation],
+        email: params['user']['email'],
+        password: params['user']['password'],
+        password_confirmation: params['user']['password_confirmation'],
         activo: true
     )
 

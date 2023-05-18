@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-    include CurrenteUserConcern
+    include CurrentUserConcern
     def create
         user = Usuario
             .find_by(email: params["user"]["email"])
