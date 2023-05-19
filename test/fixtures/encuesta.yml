@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titulo_encuesta: MyString
+  objetivo_encuesta: MyText
+  indicacion_encuesta: MyText
+  fecha_creacion_encuesta: 2023-05-18 23:32:11
+  fecha_actualizacion_encuesta: 2023-05-18 23:32:11
+  link_encuesta: MyString
+  estado_encuesta: false
+  fecha_inicio_encuesta: 2023-05-18 23:32:11
+  fecha_finalizacion_encuesta: 2023-05-18 23:32:11
+
+two:
+  titulo_encuesta: MyString
+  objetivo_encuesta: MyText
+  indicacion_encuesta: MyText
+  fecha_creacion_encuesta: 2023-05-18 23:32:11
+  fecha_actualizacion_encuesta: 2023-05-18 23:32:11
+  link_encuesta: MyString
+  estado_encuesta: false
+  fecha_inicio_encuesta: 2023-05-18 23:32:11
+  fecha_finalizacion_encuesta: 2023-05-18 23:32:11
