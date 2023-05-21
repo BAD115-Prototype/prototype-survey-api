@@ -5,7 +5,7 @@ class CreatePersonalizacionEncuestas < ActiveRecord::Migration[7.0]
       t.string :imagen, limit: 255
       t.string :color_fondo, limit: 6
       t.string :color_principal, limit: 6
-      t.references :fk_encuesta, null: false, foreign_key: { to_table: :encuestas, primary_key: :pk_encuesta }
+      t.references :encuesta, null: false, foreign_key: { to_table: :encuestas, primary_key: :pk_encuesta }
     end
   end
 end

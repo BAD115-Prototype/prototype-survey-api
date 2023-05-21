@@ -7,8 +7,13 @@ Rails.application.routes.draw do
 
   # Encuestas
   resources :usuarios, only: [] do
-    resources :encuestas, only: [:index]
+    resources :encuestas, only: [:index, :show]
   end
+
+  resources :encuestas, only: [] do
+    resource :personalizacion_encuesta, only: [:show], path: 'personalizacion_encuesta'
+  end
+  
 
 
   #Rutas Seguras
