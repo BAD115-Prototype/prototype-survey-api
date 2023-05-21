@@ -14,10 +14,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
   create_table "criterios", primary_key: "pk_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "descripcion_criterio", limit: 120
     t.integer "valor_criterio"
-    t.bigint "fk_encuesta_id", null: false
-    t.bigint "fk_tipo_criterio_id", null: false
-    t.index ["fk_encuesta_id"], name: "index_criterios_on_fk_encuesta_id"
-    t.index ["fk_tipo_criterio_id"], name: "index_criterios_on_fk_tipo_criterio_id"
+    t.bigint "encuesta_id", null: false
+    t.bigint "tipo_criterio_id", null: false
+    t.index ["encuesta_id"], name: "index_criterios_on_encuesta_id"
+    t.index ["tipo_criterio_id"], name: "index_criterios_on_tipo_criterio_id"
   end
 
   create_table "encuestas", primary_key: "pk_encuesta", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
     t.boolean "estado_encuesta"
     t.datetime "fecha_inicio_encuesta"
     t.datetime "fecha_finalizacion_encuesta"
+    t.bigint "usuario_id", null: false
+    t.index ["usuario_id"], name: "index_encuestas_on_usuario_id"
   end
 
   create_table "pantallas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -61,8 +63,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
     t.string "imagen"
     t.string "color_fondo", limit: 6
     t.string "color_principal", limit: 6
-    t.bigint "fk_encuesta_id", null: false
-    t.index ["fk_encuesta_id"], name: "index_personalizacion_encuestas_on_fk_encuesta_id"
+    t.bigint "encuesta_id", null: false
+    t.index ["encuesta_id"], name: "index_personalizacion_encuestas_on_encuesta_id"
   end
 
   create_table "rol_usuarios", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -93,12 +95,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "criterios", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
-  add_foreign_key "criterios", "tipo_criterios", column: "fk_tipo_criterio_id", primary_key: "pk_tipo_criterio"
+  add_foreign_key "criterios", "encuestas", primary_key: "pk_encuesta"
+  add_foreign_key "criterios", "tipo_criterios", primary_key: "pk_tipo_criterio"
+  add_foreign_key "encuestas", "usuarios"
+  add_foreign_key "personalizacion_encuestas", "encuestas", primary_key: "pk_encuesta"
   add_foreign_key "pantallas", "permisos", primary_key: "pk_permiso"
   add_foreign_key "permiso_rols", "permisos", primary_key: "pk_permiso"
   add_foreign_key "permiso_rols", "rols", primary_key: "pk_rol"
-  add_foreign_key "personalizacion_encuestas", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "rol_usuarios", "rols", primary_key: "pk_rol", name: "fk_rol"
   add_foreign_key "rol_usuarios", "usuarios"
+
 end
