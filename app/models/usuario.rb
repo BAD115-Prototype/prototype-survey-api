@@ -4,4 +4,6 @@ class Usuario < ApplicationRecord
 
     validates_presence_of :email 
     validates_uniqueness_of :email
+
+    has_many :encuestas, foreign_key: 'usuario_id'
 end
