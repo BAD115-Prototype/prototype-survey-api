@@ -5,6 +5,12 @@ Rails.application.routes.draw do
   get :logged_in, to: "sessions#logged_in"
   root to: "static#home"
 
+  # Encuestas
+  resources :usuarios, only: [] do
+    resources :encuestas, only: [:index]
+  end
+
+
   #Rutas Seguras
   get :usuarios, to: "usuarios#index"
 end

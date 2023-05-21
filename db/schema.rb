@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
     t.boolean "estado_encuesta"
     t.datetime "fecha_inicio_encuesta"
     t.datetime "fecha_finalizacion_encuesta"
+    t.bigint "fk_usuario_id", null: false
+    t.index ["fk_usuario_id"], name: "index_encuestas_on_fk_usuario_id"
   end
 
   create_table "personalizacion_encuestas", primary_key: "pk_personalizacion_encuesta", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -56,5 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
 
   add_foreign_key "criterios", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "criterios", "tipo_criterios", column: "fk_tipo_criterio_id", primary_key: "pk_tipo_criterio"
+  add_foreign_key "encuestas", "usuarios", column: "fk_usuario_id"
   add_foreign_key "personalizacion_encuestas", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
 end
