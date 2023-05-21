@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
   create_table "criterios", primary_key: "pk_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "descripcion_criterio", limit: 120
     t.integer "valor_criterio"
@@ -34,6 +34,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
     t.index ["usuario_id"], name: "index_encuestas_on_usuario_id"
   end
 
+  create_table "pantallas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "permiso_id", null: false
+    t.string "nombre_pantalla", limit: 25
+    t.string "url_pantalla"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permiso_id"], name: "index_pantallas_on_permiso_id"
+  end
+
+  create_table "permiso_rols", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "permiso_id", null: false
+    t.bigint "rol_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permiso_id"], name: "index_permiso_rols_on_permiso_id"
+    t.index ["rol_id"], name: "index_permiso_rols_on_rol_id"
+  end
+
+  create_table "permisos", primary_key: "pk_permiso", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "nombre_permiso"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "personalizacion_encuestas", primary_key: "pk_personalizacion_encuesta", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "tipografia", limit: 100
     t.string "imagen"
@@ -41,6 +65,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
     t.string "color_principal", limit: 6
     t.bigint "encuesta_id", null: false
     t.index ["encuesta_id"], name: "index_personalizacion_encuestas_on_encuesta_id"
+  end
+
+  create_table "rol_usuarios", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "usuario_id", null: false
+    t.bigint "rol_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rol_id"], name: "index_rol_usuarios_on_rol_id"
+    t.index ["usuario_id"], name: "index_rol_usuarios_on_usuario_id"
+  end
+
+  create_table "rols", primary_key: "pk_rol", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "descripcion_rol"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tipo_criterios", primary_key: "pk_tipo_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -60,4 +99,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_032923) do
   add_foreign_key "criterios", "tipo_criterios", primary_key: "pk_tipo_criterio"
   add_foreign_key "encuestas", "usuarios"
   add_foreign_key "personalizacion_encuestas", "encuestas", primary_key: "pk_encuesta"
+  add_foreign_key "pantallas", "permisos", primary_key: "pk_permiso"
+  add_foreign_key "permiso_rols", "permisos", primary_key: "pk_permiso"
+  add_foreign_key "permiso_rols", "rols", primary_key: "pk_rol"
+  add_foreign_key "rol_usuarios", "rols", primary_key: "pk_rol", name: "fk_rol"
+  add_foreign_key "rol_usuarios", "usuarios"
+
 end
