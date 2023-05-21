@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_20_200623) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
   create_table "criterios", primary_key: "pk_criterio", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "descripcion_criterio", limit: 120
     t.integer "valor_criterio"
@@ -30,6 +30,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_200623) do
     t.boolean "estado_encuesta"
     t.datetime "fecha_inicio_encuesta"
     t.datetime "fecha_finalizacion_encuesta"
+  end
+
+  create_table "pantallas", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "permiso_id", null: false
+    t.string "nombre_pantalla", limit: 25
+    t.string "url_pantalla"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permiso_id"], name: "index_pantallas_on_permiso_id"
+  end
+
+  create_table "permiso_rols", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "permiso_id", null: false
+    t.bigint "rol_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permiso_id"], name: "index_permiso_rols_on_permiso_id"
+    t.index ["rol_id"], name: "index_permiso_rols_on_rol_id"
+  end
+
+  create_table "permisos", primary_key: "pk_permiso", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "nombre_permiso"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "personalizacion_encuestas", primary_key: "pk_personalizacion_encuesta", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -71,6 +95,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_200623) do
 
   add_foreign_key "criterios", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "criterios", "tipo_criterios", column: "fk_tipo_criterio_id", primary_key: "pk_tipo_criterio"
+  add_foreign_key "pantallas", "permisos", primary_key: "pk_permiso"
+  add_foreign_key "permiso_rols", "permisos", primary_key: "pk_permiso"
+  add_foreign_key "permiso_rols", "rols", primary_key: "pk_rol"
   add_foreign_key "personalizacion_encuestas", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "rol_usuarios", "rols", primary_key: "pk_rol", name: "fk_rol"
   add_foreign_key "rol_usuarios", "usuarios"
