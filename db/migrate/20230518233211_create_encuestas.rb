@@ -10,7 +10,7 @@ class CreateEncuestas < ActiveRecord::Migration[7.0]
       t.boolean :estado_encuesta
       t.datetime :fecha_inicio_encuesta
       t.datetime :fecha_finalizacion_encuesta
-      t.references :fk_usuario, null: false, foreign_key: { to_table: :usuarios }
+      t.references :usuario, null: false, foreign_key: { to_table: :usuarios }
     end
   end
 end

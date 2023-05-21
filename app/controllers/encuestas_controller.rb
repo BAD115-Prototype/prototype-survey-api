@@ -4,4 +4,9 @@ class EncuestasController < ApplicationController
         @encuestas = usuario.encuestas
         render json: @encuestas
     end
+
+    def show
+        @encuesta = Encuesta.find(params[:id])
+        render json: @encuesta
+    end
 end
