@@ -95,10 +95,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_204922) do
 
   add_foreign_key "criterios", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "criterios", "tipo_criterios", column: "fk_tipo_criterio_id", primary_key: "pk_tipo_criterio"
+  add_foreign_key "encuestas", "usuarios"
   add_foreign_key "pantallas", "permisos", primary_key: "pk_permiso"
   add_foreign_key "permiso_rols", "permisos", primary_key: "pk_permiso"
   add_foreign_key "permiso_rols", "rols", primary_key: "pk_rol"
   add_foreign_key "personalizacion_encuestas", "encuestas", column: "fk_encuesta_id", primary_key: "pk_encuesta"
   add_foreign_key "rol_usuarios", "rols", primary_key: "pk_rol", name: "fk_rol"
   add_foreign_key "rol_usuarios", "usuarios"
+  
 end
