@@ -1,0 +1,8 @@
+##Variables de Entorno
+
+## DATABASE
+MYSQL_DB='prueba'
+MYSQL_HOST='bad-db.czoy1vdwgmhj.us-east-1.rds.amazonaws.com'
+MYSQL_PORT=3306
+MYSQL_USER='bad'
+MYSQL_PASSWORD='bad115'
