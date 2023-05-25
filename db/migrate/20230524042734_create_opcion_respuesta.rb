@@ -1,4 +1,4 @@
-class CreateOpcionRespuestas < ActiveRecord::Migration[7.0]
+class CreateOpcionRespuesta < ActiveRecord::Migration[7.0]
   def change
     create_table :opcion_respuestas, primary_key: "pk_opcion_respuesta" do |t|
       t.string :texto_opcion
