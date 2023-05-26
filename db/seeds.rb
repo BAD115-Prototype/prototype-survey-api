@@ -85,3 +85,8 @@ Pregunta.create(
   encuesta_id: 1,
   tipo_pregunta_id: 1
 )
+
+Pantalla.create(
+  nombre_pantalla: "Ver Usuarios",
+  url_pantalla: "/usuarios"
+)
