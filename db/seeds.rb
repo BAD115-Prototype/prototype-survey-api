@@ -65,3 +65,8 @@ PersonalizacionEncuesta.create(
   color_principal: "00FF00",
   encuesta_id: 3
 )
+
+Pantalla.create(
+  nombre_pantalla: "Ver Usuarios",
+  url_pantalla: "/usuarios"
+)
