@@ -1,4 +1,5 @@
 class PantallasController < ApplicationController
+    include CurrentUserConcern
     def index
     pantallas=Pantalla.order('created_at')
     render json: {
