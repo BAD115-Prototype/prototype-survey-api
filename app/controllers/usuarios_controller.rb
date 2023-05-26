@@ -10,4 +10,9 @@ class UsuariosController < ApplicationController
             }
           end
     end
+    def update
+        if user
+
+        end
+    end
 end
