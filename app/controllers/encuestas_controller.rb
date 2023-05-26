@@ -62,5 +62,5 @@ class EncuestasController < ApplicationController
     def encuesta_create_params
       params.require(:encuesta).permit(:titulo_encuesta, :objetivo_encuesta, :indicacion_encuesta, :link_encuesta, :estado_encuesta, :fecha_inicio_encuesta, :fecha_finalizacion_encuesta)
   end
-      
+     
 end
