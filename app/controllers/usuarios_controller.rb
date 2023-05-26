@@ -1,14 +1,12 @@
 class UsuariosController < ApplicationController
     def index
-        if session[:user_id]
-            render json: {
-                logged_in: "Deberia de verse algo solo si esta logeado"
-            }
-          else
-            render json: {
-                logged_in: "No hay enfoque de sistemas"
-            }
-          end
+        @users=Usuario.order('created_at').page(params[:page]).per(10)
+        render json: {
+            users: @users,
+            current_page: @users.current_page,
+            total_pages: @users.total_pages,
+            total_count: @users.total_count
+          }
     end
     def update
         if user

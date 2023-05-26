@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
 
   #Rutas Seguras
-  get :usuarios, to: "usuarios#index"
+  resources :usuarios
   resources :pantallas
 end
 

@@ -18,6 +18,10 @@ gem "dotenv-rails"
 #MYSQL Adapter
 gem 'mysql2'
 
+#Paginación
+gem 'kaminari'
+gem 'api-pagination'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
