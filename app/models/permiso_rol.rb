@@ -1,4 +1,4 @@
 class PermisoRol < ApplicationRecord
   belongs_to :permiso
-  belongs_to :rol
+  belongs_to :rols
 end
