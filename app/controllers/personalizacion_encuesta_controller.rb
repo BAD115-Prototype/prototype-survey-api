@@ -10,7 +10,7 @@ class PersonalizacionEncuestaController < ApplicationController
       end
     end
 
-    def show
+    def index
       encuesta = Encuesta.find(params[:encuesta_id])
       personalizacion_encuesta = encuesta.personalizacion_encuesta
 
