@@ -37,6 +37,15 @@ class OpcionRespuestasController < ApplicationController
       end
     end
 
+    # DELETE /opcion_respuestas/1
+    def destroy
+      if @opcion_respuesta.destroy
+        render json: { message: 'Opción de respuesta eliminada con éxito' }, status: :ok
+      else
+        render json: { message: 'Error al eliminar la opción de respuesta' }, status: :unprocessable_entity
+      end
+    end
+
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_opcion_respuesta
