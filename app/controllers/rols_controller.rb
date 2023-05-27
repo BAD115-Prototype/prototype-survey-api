@@ -2,16 +2,6 @@ class RolsController < ApplicationController
   include CurrentUserConcern
 
   def index
-    if Rol.find_by(descripcion_rol: "Administrador").nil?
-      rol = Rol.create(descripcion_rol: "Administrador")
-      usuario = Usuario.find_by(id: 1)
-      rol.usuarios << usuario
-      render json: {
-          status: :created,
-          rol: rol
-      }
-    end
-
     roles = Rol.order('created_at')
     render json: {
       status: 'Exitoso',
