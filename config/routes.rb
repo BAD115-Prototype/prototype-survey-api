@@ -18,11 +18,10 @@ Rails.application.routes.draw do
   end
   
   # Prueba opcion_respuestas
-  resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
+  resources :encuestas, only: [] do
+    resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
+  end
   
-  
-
-
   #Rutas Seguras
   resources :usuarios
   resources :pantallas
