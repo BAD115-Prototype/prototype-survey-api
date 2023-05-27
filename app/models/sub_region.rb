@@ -1,0 +1,2 @@
+class SubRegion < ApplicationRecord
+end

@@ -9,20 +9,24 @@ Rails.application.routes.draw do
 
   # Encuestas
   resources :usuarios, only: [] do
-    resources :encuestas, only: [:index, :show]
+    resources :encuestas, only: [:create, :index, :show, :update, :destroy]
   end
 
   resources :encuestas, only: [] do
-    resource :personalizacion_encuesta, only: [:show], path: 'personalizacion_encuesta'
+    resources :personalizacion_encuesta, only: [:index, :create ], path: 'personalizacion_encuesta'
+    put 'personalizacion_encuesta', to: 'personalizacion_encuesta#update', as: 'update_personalizacion_encuesta'
   end
   
 
 
   #Rutas Seguras
-  get :usuarios, to: "usuarios#index"
+  resources :usuarios
+  resources :pantallas
 
-
+    
   #Roles y permisos
   resources :rols
   resources :permisos
+
 end
+
