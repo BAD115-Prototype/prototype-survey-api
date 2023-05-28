@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   #Prueba preguntas
   resources :encuestas, only: [] do
     resources :preguntas, only: [:create, :index, :show, :update, :destroy]
+    resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
   end
-
 
   #Rutas Seguras
   resources :usuarios
