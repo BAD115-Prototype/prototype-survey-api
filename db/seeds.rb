@@ -90,3 +90,28 @@ Pantalla.create(
   nombre_pantalla: "Ver Usuarios",
   url_pantalla: "/usuarios"
 )
+
+TipoPregunta.create(
+  descripcion_tipo: "Pregunta Abierta"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Elección Única"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Elección Multiple"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Numerica"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Nominal"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Likert"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Ranking"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Mixta"
+)

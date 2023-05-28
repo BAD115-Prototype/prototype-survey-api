@@ -1,8 +1,9 @@
 class PreguntasController < ApplicationController
     def index
         encuesta = Encuesta.find(params[:encuesta_id])
-        @preguntas = encuesta.preguntas
-        render json: @preguntas
+        @preguntas = Pregunta.includes(:opcionRespuestas).where(encuesta_id: encuesta.id)
+        json_data = @preguntas.as_json(include: :opcionRespuestas)
+        render json: json_data
     end
 
     def show
@@ -12,18 +13,39 @@ class PreguntasController < ApplicationController
 
     def create
         encuesta = Encuesta.find(params[:encuesta_id])
-        tipo_pregunta = TipoPregunta.find(params[:tipo_pregunta_id])
+        preguntas=params[:preguntas]
+        @request=""
+        preguntas.each do |pregunta|
+            #Creando la pregunta
+            nuevaPregunta=encuesta.preguntas.build(
+                texto_pregunta: pregunta["texto_pregunta"],
+                campo_obligatorio: pregunta["campo_obligatorio"],
+            )
+            nuevaPregunta.tipo_pregunta_id=pregunta["tipo_pregunta_id"]
+            
+            if nuevaPregunta.save 
+                ##Creando opciones de pregunta
+                pregunta["opcionRespuesta"].each do |opcion|
+                    nuevaOpcion=OpcionRespuesta.new(
+                        fk_pregunta_id: nuevaPregunta.id,
+                        texto_opcion: opcion["texto_opcion"]
+                    )
+                    if nuevaOpcion.save
+                        @request="Se almacenaron todas las preguntas"
+                    else
+                        @request="Ocurrio un error en pregunta" + nuevaPregunta.id
+                        encuesta.preguntas.destroy_all
+                    end
+                end
+            end
 
-        @pregunta = encuesta.preguntas.build(params.require(:pregunta).permit(:texto_pregunta, :campo_obligatorio, :tipo_pregunta_id))
-        @pregunta.tipo_pregunta = tipo_pregunta
-        @pregunta.created_at = DateTime.now
-        @pregunta.created_at = DateTime.now
-
-        if @pregunta.save
-            render json: @pregunta, status: :created
-        else
-            render json: { error: 'No se pudo crear la pregunta' }, status: :unprocessable_entity
+            puts "---------------"
         end
+        render json: {
+            status: 'Exitoso',
+            message: @request,
+        }, status: :ok
+
     end
 
     def edit
