@@ -1,4 +1,10 @@
 # seeds.rb
+Usuario.create(
+  nombre_usuario: "Kenya",
+  email: "kenyaerivas@gmail.com",
+  password: "Pa$$w0rd321",
+  activo: true
+)
 
 Encuesta.create(
   titulo_encuesta: "Encuesta de satisfacción del cliente",
@@ -64,6 +70,20 @@ PersonalizacionEncuesta.create(
   color_fondo: "ECECEC",
   color_principal: "00FF00",
   encuesta_id: 3
+)
+
+Pregunta.create(
+  texto_pregunta: "¿Pregunta realizada correctamente?",
+  campo_obligatorio: true,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
+)
+
+Pregunta.create(
+  texto_pregunta: "¿La pregunta se ha creado satisfactoriamente?",
+  campo_obligatorio: false,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
 )
 
 Pantalla.create(

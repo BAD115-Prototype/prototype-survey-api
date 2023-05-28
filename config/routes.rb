@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     put 'personalizacion_encuesta', to: 'personalizacion_encuesta#update', as: 'update_personalizacion_encuesta'
   end
   
+  #Prueba preguntas
+  resources :encuestas, only: [] do
+    resources :preguntas, only: [:create, :index, :show, :update, :destroy]
+  end
 
 
   #Rutas Seguras
