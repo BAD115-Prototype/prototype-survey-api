@@ -38,8 +38,6 @@ class PreguntasController < ApplicationController
                     end
                 end
             end
-
-            puts "---------------"
         end
         render json: {
             status: 'Exitoso',
