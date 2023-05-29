@@ -1,4 +1,10 @@
 # seeds.rb
+Usuario.create(
+  nombre_usuario: "Kenya",
+  email: "kenyaerivas@gmail.com",
+  password: "Pa$$w0rd321",
+  activo: true
+)
 
 Encuesta.create(
   titulo_encuesta: "Encuesta de satisfacción del cliente",
@@ -66,7 +72,46 @@ PersonalizacionEncuesta.create(
   encuesta_id: 3
 )
 
+Pregunta.create(
+  texto_pregunta: "¿Pregunta realizada correctamente?",
+  campo_obligatorio: true,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
+)
+
+Pregunta.create(
+  texto_pregunta: "¿La pregunta se ha creado satisfactoriamente?",
+  campo_obligatorio: false,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
+)
+
 Pantalla.create(
   nombre_pantalla: "Ver Usuarios",
   url_pantalla: "/usuarios"
+)
+
+TipoPregunta.create(
+  descripcion_tipo: "Pregunta Abierta"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Elección Única"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Elección Multiple"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Numerica"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Nominal"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Escala Likert"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Ranking"
+)
+TipoPregunta.create(
+  descripcion_tipo: "Mixta"
 )

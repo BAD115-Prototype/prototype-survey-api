@@ -52,6 +52,7 @@ class EncuestasController < ApplicationController
         render json: { error: 'Encuesta no encontrada' }, status: :not_found
       end
     end
+    
       
     private
 
