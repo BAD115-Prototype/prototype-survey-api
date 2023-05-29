@@ -39,7 +39,7 @@ class RolsController < ApplicationController
       render json: {
         status: 'ERROR',
         message: 'Rol no actualizado',
-        data: pantalla.errors
+        data: rol.errors
     }, status: :unprocessable_entity
     end
   end
