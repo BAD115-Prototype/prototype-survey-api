@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     
   #Roles y permisos
   resources :rols
+  post ':rols/:id', to: "rols#update"
+  
   resources :permisos
 
 end
