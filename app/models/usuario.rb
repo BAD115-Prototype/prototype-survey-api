@@ -6,4 +6,12 @@ class Usuario < ApplicationRecord
     validates_uniqueness_of :email
 
     has_many :encuestas, foreign_key: 'usuario_id'
+
+    before_save :validar_intentos 
+
+    private
+
+    def validar_intentos
+        self.activo = false if self.intentos >= 3
+    end
 end

@@ -5,8 +5,12 @@ class SessionsController < ApplicationController
     user = Usuario
             .find_by(email: params["user"]["email"])
             .try(:authenticate, params["user"]["password"])
-
-    if (user && user.activo)
+    
+    if user  && user.authenticate(params["user"]["password"])
+    #if (user && user.activo)
+      #restablecer el contador de intentos fallidos
+      user.update(intentos: 0)
+    
       session[:user_id] = user.id
       render json: {
         status: :created,
@@ -14,6 +18,9 @@ class SessionsController < ApplicationController
         user: user
       }
     else
+       # Incrementar el contador de intentos fallidos
+       incrementar_intentos_fallidos(params["user"]["email"])
+
       render json: { status: 401 }
     end
   end
@@ -34,5 +41,17 @@ class SessionsController < ApplicationController
   def logout
     reset_session
     render json: { status: 200, logged_out: true }
+  end
+
+  private
+
+  def incrementar_intentos_fallidos(email)
+    user = Usuario.find_by(email: email)
+    return unless user
+
+    intentos_actuales = user.intentos || 0
+    user.update(intentos: intentos_actuales + 1)
+
+   
   end
 end
