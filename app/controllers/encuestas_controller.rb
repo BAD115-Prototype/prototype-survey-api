@@ -46,6 +46,9 @@ class EncuestasController < ApplicationController
       @encuesta = usuario.encuestas.find_by(pk_encuesta: params[:id])
   
       if @encuesta
+         # Eliminar la PersonalizacionEncuesta asociada, si existe
+        @encuesta.personalizacion_encuesta&.destroy
+        # Eliminar la Encuesta
         @encuesta.destroy
         render json: { message: 'Encuesta eliminada exitosamente' }
       else

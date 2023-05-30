@@ -72,25 +72,6 @@ PersonalizacionEncuesta.create(
   encuesta_id: 3
 )
 
-Pregunta.create(
-  texto_pregunta: "¿Pregunta realizada correctamente?",
-  campo_obligatorio: true,
-  encuesta_id: 1,
-  tipo_pregunta_id: 1
-)
-
-Pregunta.create(
-  texto_pregunta: "¿La pregunta se ha creado satisfactoriamente?",
-  campo_obligatorio: false,
-  encuesta_id: 1,
-  tipo_pregunta_id: 1
-)
-
-Pantalla.create(
-  nombre_pantalla: "Ver Usuarios",
-  url_pantalla: "/usuarios"
-)
-
 TipoPregunta.create(
   descripcion_tipo: "Pregunta Abierta"
 )
@@ -115,3 +96,23 @@ TipoPregunta.create(
 TipoPregunta.create(
   descripcion_tipo: "Mixta"
 )
+
+Pregunta.create(
+  texto_pregunta: "¿Pregunta realizada correctamente?",
+  campo_obligatorio: true,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
+)
+
+Pregunta.create(
+  texto_pregunta: "¿La pregunta se ha creado satisfactoriamente?",
+  campo_obligatorio: false,
+  encuesta_id: 1,
+  tipo_pregunta_id: 1
+)
+
+Pantalla.create(
+  nombre_pantalla: "Ver Usuarios",
+  url_pantalla: "/usuarios"
+)
+
