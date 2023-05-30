@@ -32,5 +32,8 @@ Rails.application.routes.draw do
   resources :rols
   resources :permisos
 
+  #Email
+  get 'email/send_email/:user_id', to: 'email#send_email', as: 'send_email'
+
 end
 
