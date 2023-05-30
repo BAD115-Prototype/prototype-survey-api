@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   #Rutas Seguras
   resources :usuarios
   resources :pantallas
+  resources :generos
 
     
   #Roles y permisos
