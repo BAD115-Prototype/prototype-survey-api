@@ -15,16 +15,16 @@ class EncuestadosController < ApplicationController
             if params[:incognito]
                 @encuestado=encuesta.encuestados.build(
                     email_encuestado: params["email_encuestado"],
-                    nombre_encuestado: params["nombre_encuestado"],
-                    apellido_encuestado: params["apellido_encuestado"],
-                    fecha_nacimiento: params["fecha_nacimiento"],
-                    genero_id: params["genero_id"]
+                    genero_id: 3
                 )
                 #Si esta deacuerdo con compartir su información 
             else
                 @encuestado=encuesta.encuestados.build(
                     email_encuestado: params["email_encuestado"],
-                    genero_id: params["genero_id"]
+                    genero_id: params["genero_id"],
+                    nombre_encuestado: params["nombre_encuestado"],
+                    apellido_encuestado: params["apellido_encuestado"],
+                    fecha_nacimiento: params["fecha_nacimiento"],
                 )
             end
             if @encuestado.save
