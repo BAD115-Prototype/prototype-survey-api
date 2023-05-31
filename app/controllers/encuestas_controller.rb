@@ -5,6 +5,7 @@ class EncuestasController < ApplicationController
     @encuesta = usuario.encuestas.build(encuesta_create_params)
     @encuesta.fecha_creacion_encuesta = DateTime.now
     @encuesta.fecha_actualizacion_encuesta = DateTime.now
+    @encuesta.link_encuesta = generate_unique_link
 
     if @encuesta.save
       render json: @encuesta, status: :created
@@ -60,11 +61,15 @@ class EncuestasController < ApplicationController
     private
 
     def encuesta_params
-        params.require(:encuesta).permit(:titulo_encuesta, :objetivo_encuesta, :indicacion_encuesta, :link_encuesta, :estado_encuesta, :fecha_inicio_encuesta, :fecha_finalizacion_encuesta)
+        params.require(:encuesta).permit(:titulo_encuesta, :objetivo_encuesta, :indicacion_encuesta, :estado_encuesta, :fecha_inicio_encuesta, :fecha_finalizacion_encuesta)
     end
 
     def encuesta_create_params
-      params.require(:encuesta).permit(:titulo_encuesta, :objetivo_encuesta, :indicacion_encuesta, :link_encuesta, :estado_encuesta, :fecha_inicio_encuesta, :fecha_finalizacion_encuesta)
-  end
+      params.require(:encuesta).permit(:titulo_encuesta, :objetivo_encuesta, :indicacion_encuesta, :estado_encuesta, :fecha_inicio_encuesta, :fecha_finalizacion_encuesta)
+    end
+
+    def generate_unique_link
+      SecureRandom.uuid.delete('-')
+    end   
      
 end
