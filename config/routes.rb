@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   
   #Prueba preguntas
   resources :encuestas, only: [:show] do
-    resources :encuestados
+    resources :encuestados do
+      resource :respuestas
+    end
     resources :preguntas, only: [:create, :index, :show, :update, :destroy]
     resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
   end
