@@ -21,8 +21,14 @@ class EncuestasController < ApplicationController
     end
 
     def show
+      begin
+        Integer(params[:id])
         @encuesta = Encuesta.find(params[:id])
         render json: @encuesta
+      rescue ArgumentError
+        @encuesta = Encuesta.find_by(link_encuesta: params[:id])
+        render json: @encuesta
+      end
     end
 
     def update
