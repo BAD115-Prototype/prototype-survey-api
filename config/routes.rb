@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
   end
 
+  #Tipo preguntas
+  resources :tipo_pregunta, only: [:index]
+
   #Rutas Seguras
   resources :usuarios
   resources :pantallas
