@@ -41,6 +41,10 @@ class RespuestasController < ApplicationController
                         valor_respuesta: cantidadOpciones
                     )
                     cantidadOpciones -= 1
+                elsif respuesta['tipo_pregunta_id']==20 ##Es cuando la respuesta de una pregunta mixta es un valor abierto
+                    nuevaRespuesta=encuestado.respuestas.build(
+                        valor_respuesta: respuesta['valor_abierto']
+                    )
                 #Si no, se ocupa el valor correspondiente a la opción de respuesta
                 else    
                     nuevaRespuesta=encuestado.respuestas.build(
