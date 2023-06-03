@@ -14,28 +14,48 @@ class RespuestasController < ApplicationController
             data: @encuestado.respuestas
         }, status: :ok
     end
+
     def create
         encuestado=Encuestado.find(params[:encuestado_id])
         respuestas=params[:respuestas]
         @request=""
+        cantidadOpciones=0
         ##Eliminando respuestas anteriores
         encuestado.respuestas.destroy_all
         #Recorriendo las respuestas
         respuestas.each do |respuesta|
-            nuevaRespuesta=encuestado.respuestas.build(
-                valor_respuesta: respuesta['valor_respuesta']
-            )
-            if nuevaRespuesta.save
-                 ##REcorriendo las opciones de respuesta
-                opciones=respuesta['opcionRespuestas']
-                @request="Se almacenaron todas las respuestas"
-                opciones.each do |opcion|
+            opciones=respuesta['opcionRespuestas']
+            ##Necesito inicializar un contador cuando estoy en las preguntas Ranking
+            if respuesta['tipo_pregunta_id']==7
+                cantidadOpciones=opciones.size
+            end
+            opciones.each do |opcion|
+                #Si es una pregunta Abierta, se almacena el valor de la respuesta proporcionado por el usuario
+                if respuesta['tipo_pregunta_id']==1 or respuesta['tipo_pregunta_id']==8
+                    nuevaRespuesta=encuestado.respuestas.build(
+                        valor_respuesta: respuesta['valor_respuesta']
+                    )
+                ## si es una pregunta ranking se da un puntaje correspondiente a la posición, siendo la primera posición la de mayor puntaje
+                elsif respuesta['tipo_pregunta_id']==7
+                    nuevaRespuesta=encuestado.respuestas.build(
+                        valor_respuesta: cantidadOpciones
+                    )
+                    cantidadOpciones -= 1
+                #Si no, se ocupa el valor correspondiente a la opción de respuesta
+                else    
+                    nuevaRespuesta=encuestado.respuestas.build(
+                        valor_respuesta: opcion["texto_opcion"]
+                    )
+                end
+
+                if nuevaRespuesta.save
                     op=OpcionRespuesta.find(opcion['pk_opcion_respuesta'])
                     nuevaRespuesta.opcion_respuestas << op
+                    @request="Se almacenaron todas las respuestas"
+                else
+                    @request="Ocurrio un error en respuesta " + nuevaRespuesta.pk_respuesta
+                    encuestado.respuestas.destroy_all
                 end
-            else
-                @request="Ocurrio un error en respuesta " + nuevaRespuesta.pk_respuesta
-                encuestado.respuestas.destroy_all
             end
         end
         render json: {
