@@ -1,0 +1,7 @@
+<!-- app/views/user_mailer/invitation_email.html.erb -->
+<h1>¡Hola <%= @user.nombre_usuario %>!</h1>
+<p>Has sido invitado a unirte a la siguiente encuesta:</p>
+<h2><%= @survey.titulo_encuesta %></h2>
+<p>Por favor, haz clic en el siguiente enlace para participar:</p>
+<a href="<%= @survey.link_encuesta %>">Ir a encuesta</a>
+<p>Gracias, el equipo de la plataforma.</p>

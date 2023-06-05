@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "rc18118@ues.edu.sv"
+  default from: "admin@prototypesurvey.com"
   layout "mailer"
 end

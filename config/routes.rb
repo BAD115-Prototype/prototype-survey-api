@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   resources :permisos
 
   #Email
-  get 'email/send_email/:user_id', to: 'email#send_email', as: 'send_email'
+  get 'email/email_bienvenida/:user_id', to: 'email#email_bienvenida', as: 'email_bienvenida'
+  get 'email/email_encuesta/:encuesta_id/:user_id', to: 'email#email_encuesta', as: 'email_encuesta'
 
 end
 
