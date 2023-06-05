@@ -19,17 +19,27 @@ Rails.application.routes.draw do
   
   #Prueba preguntas
   resources :encuestas, only: [:show] do
+    resources :encuestados do
+      resource :respuestas
+    end
+    resources :resultados, only: [:index]
     resources :preguntas, only: [:create, :index, :show, :update, :destroy]
     resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
   end
 
+  #Tipo preguntas
+  resources :tipo_pregunta, only: [:index]
+
   #Rutas Seguras
   resources :usuarios
   resources :pantallas
+  resources :generos
 
     
   #Roles y permisos
   resources :rols
+  post ':rols/:id', to: "rols#update"
+  
   resources :permisos
 
   #Email
