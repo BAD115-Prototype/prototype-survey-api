@@ -1,5 +1,6 @@
 class PermisoRol < ApplicationRecord
-  belongs_to :permiso
+  self.table_name = "permiso_rols"
+  belongs_to :permisos
   belongs_to :rols
 end
 
