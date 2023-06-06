@@ -7,16 +7,18 @@ class SessionsController < ApplicationController
             .try(:authenticate, params["user"]["password"])
     
     if user  && user.authenticate(params["user"]["password"])
-    #if (user && user.activo)
+
       #restablecer el contador de intentos fallidos
       user.update(intentos: 0)
-    
-      session[:user_id] = user.id
-      render json: {
-        status: :created,
-        logged_in: true,
-        user: user
+
+      if (user.activo){
+        session[:user_id] = user.id
+        render json: {
+          status: :created,
+          logged_in: true,
+          user: user
       }
+    }
     else
        # Incrementar el contador de intentos fallidos
        incrementar_intentos_fallidos(params["user"]["email"])

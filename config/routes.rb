@@ -38,9 +38,15 @@ Rails.application.routes.draw do
     
   #Roles y permisos
   resources :rols
-  post ':rols/:id', to: "rols#update"
-  
   resources :permisos
+
+  resources :rols, only: [:show, :update] do
+    resources :permisos, only: [:index, :create]
+  end
+
+  resources :permisos, only: [:show] do
+    resources :pantallas, only: [:index, :create]
+  end
 
 end
 
