@@ -11,14 +11,14 @@ class SessionsController < ApplicationController
       #restablecer el contador de intentos fallidos
       user.update(intentos: 0)
 
-      if (user.activo){
+      if (user.activo)
         session[:user_id] = user.id
         render json: {
           status: :created,
           logged_in: true,
           user: user
       }
-    }
+      end
     else
        # Incrementar el contador de intentos fallidos
        incrementar_intentos_fallidos(params["user"]["email"])
