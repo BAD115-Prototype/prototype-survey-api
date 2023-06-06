@@ -11,10 +11,16 @@ class PersonalizacionEncuestaController < ApplicationController
     end
 
     def index
-      encuesta = Encuesta.find(params[:encuesta_id])
-      personalizacion_encuesta = encuesta.personalizacion_encuesta
-
-      render json: personalizacion_encuesta
+      begin
+        Integer(params[:encuesta_id])
+        encuesta = Encuesta.find(params[:encuesta_id])
+        personalizacion_encuesta = encuesta.personalizacion_encuesta
+        render json: personalizacion_encuesta
+      rescue ArgumentError
+        encuesta = Encuesta.find_by(link_encuesta: params[:encuesta_id])
+        personalizacion_encuesta = encuesta.personalizacion_encuesta
+        render json: personalizacion_encuesta
+      end
     end
 
     def update

@@ -5,7 +5,8 @@ class RegistrationsController < ApplicationController
         email: params['user']['email'],
         password: params['user']['password'],
         password_confirmation: params['user']['password_confirmation'],
-        activo: true
+        activo: true,
+        intentos: 0
     )
 
     if user
