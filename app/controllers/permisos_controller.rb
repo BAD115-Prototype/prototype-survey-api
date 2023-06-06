@@ -68,7 +68,7 @@ class PermisosController < ApplicationController
 
       render json: {
         status: 'Exitoso',
-        message: @request1 + request2,
+        message: @request1 + @request2,
       }, status: :ok
     
     else    
