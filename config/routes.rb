@@ -46,5 +46,8 @@ Rails.application.routes.draw do
   get 'email/email_bienvenida/:user_id', to: 'email#email_bienvenida', as: 'email_bienvenida'
   get 'email/email_encuesta/:encuesta_id/:user_id', to: 'email#email_encuesta', as: 'email_encuesta'
 
+  #Prueba archivos
+  post 'file', to: 'personalizacion_encuesta#upload_file', as: 'upload_file'
+
 end
 
