@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :encuestas, only: [] do
-    resources :personalizacion_encuesta, only: [:index, :create ], path: 'personalizacion_encuesta'
+    resources :personalizacion_encuesta, only: [:index, :create ], path: 'personalizacion_encuesta', multipart: true
     put 'personalizacion_encuesta', to: 'personalizacion_encuesta#update', as: 'update_personalizacion_encuesta'
   end
   
