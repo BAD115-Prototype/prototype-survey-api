@@ -1,5 +1,5 @@
 class PermisosPantalla < ApplicationRecord
   self.table_name = "permisos_pantallas"
-  belongs_to :permiso
-  belongs_to :pantalla
+  belongs_to :permisos
+  belongs_to :pantallas
 end

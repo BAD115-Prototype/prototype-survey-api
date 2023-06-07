@@ -1,33 +1,98 @@
 class PermisosController < ApplicationController
   include CurrentUserConcern
+  
+  def index  
+    if (params[:rol_id] != nil)
+      #Obteniendo permisos por rol
+      rol = Rol.find(params[:rol_id])      
+      @permisos = Rol.includes(:permisos).where(pk_rol: rol.pk_rol)
+      json_data = @permisos.as_json(include: :permisos)
 
-  def index
-    permisos = Permiso.order('created_at')
-    render json: {
+      render json: {
       status: 'Exitoso',
       message: 'Permisos Cargadas',
-      data: permisos
-    }, status: :ok
+      data: json_data
+      }, status: :ok
+    
+    else
+      #Obteniendo permisos
+      permisos = Permiso.order('created_at')
+      render json: {
+        status: 'Exitoso',
+        message: 'Permisos Cargadas',
+        data: permisos
+      }, status: :ok
+    end
   end
     
   def create
-    newPermiso = Permiso.new(permisos_params)
-    if newPermiso.save
+    #Creando asignacion de permisos
+    if (params[:rol_id] != nil)
+
+      rol = Rol.find(params[:rol_id]) 
+      permisoRol = Permiso.includes(:rols)  
+      permisosAsig=params[:permisosRight]
+      permisosNoAsig=params[:permisosLeft]
+      @request1 = ""
+      @request2 = ""
+
+      #Asignando permisos
+      permisosAsig.each do |permisoA|
+        permisoRol.each do |pr|
+          if(pr["pk_permiso"] == permisoA["pk_permiso"])  
+            if rol.permisos.include?(pr)
+              @request1 = "Permisos ya asignados"
+            else    
+              rol.permisos <<  Permiso.find(permisoA["pk_permiso"])
+              @request1 = "Asignadas con exito"   
+            end
+          end    
+        end
+      end
+
+      #Permisos no asignados
+      permisosNoAsig.each do |permisoNA|
+        permisoRol.each do |pr|
+          if(pr["pk_permiso"] == permisoNA["pk_permiso"])     
+            if rol.permisos.include?(pr)
+              @permi = PermisoRol.where("permiso_rols.rol_id = ? AND permiso_rols.permiso_id = ?", params[:rol_id], pr["pk_permiso"])
+              if PermisoRol.destroy(@permi[0]["id"])
+                @request2= "Se revocaron los permisos"
+              else
+                @request2= "Error al revocar permisos"
+              end
+            end
+          end    
+        end
+      end
+
       render json: {
         status: 'Exitoso',
-        message: 'Permiso creado',
-        data: newPermiso
+        message: @request1 + @request2,
       }, status: :ok
-      rol = Rol.find_by(pk_rol: 1)
-      newPermiso.rols << rol
-    else
-      render json: {
-        status: 'ERROR',
-        message: 'Permiso no creado',
-        data: newPermiso.errors
-      }, status: :unprocessable_entity
+    
+    else    
+      #Creando nuevo permiso 
+      newPermiso = Permiso.new(permisos_params)
+      if newPermiso.save
+        render json: {
+          status: 'Exitoso',
+          message: 'Permiso creado',
+          data: newPermiso
+        }, status: :ok
+        roladmin = Rol.find_by(pk_rol: 1)
+        newPermiso.rols << roladmin  
+      else
+        render json: {
+          status: 'ERROR',
+          message: 'Permiso no creado',
+          data: newPermiso.errors
+        }, status: :unprocessable_entity
+        
+      end
     end
   end
+
     
   def update
     permiso = Permiso.find(params[:id])
@@ -45,6 +110,7 @@ class PermisosController < ApplicationController
       }, status: :unprocessable_entity
     end
   end
+
     
   def show
     permiso = Permiso.find(params[:id])
@@ -77,5 +143,4 @@ class PermisosController < ApplicationController
     def permisos_params
       params.permit(:nombre_permiso)
     end
-      
 end

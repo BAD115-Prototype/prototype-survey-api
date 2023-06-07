@@ -7,11 +7,11 @@ class Usuario < ApplicationRecord
 
     has_many :encuestas, foreign_key: 'usuario_id'
 
-    before_save :validar_intentos 
+    #before_save :validar_intentos 
 
-    private
+    #private
 
-    def validar_intentos
-        self.activo = false if self.intentos >= 3
-    end
+    #def validar_intentos
+       # self.activo = false if self.intentos >= 3
+    #end
 end
