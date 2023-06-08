@@ -61,14 +61,15 @@ class PersonalizacionEncuestaController < ApplicationController
 
       # Obtiene la ruta relativa
       relative_path = File.join('/', relative_path, new_filename)
+      relative_path.sub!('/public/', '/')
 
       #render json: relative_path 
       return relative_path
     else
-      return 'public/uploads/survey.png'
+      #return 'public/uploads/survey.png'
       render json: { error: 'No se proporcionó un archivo de imagen' }, status: :unprocessable_entity
     end
-end
+  end
 
 
   def personalizacion_encuesta_create_params
