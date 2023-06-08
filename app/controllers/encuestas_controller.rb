@@ -14,11 +14,19 @@ class EncuestasController < ApplicationController
     end
   end
 
+    # def index
+    #     usuario = Usuario.find(params[:usuario_id])
+    #     @encuestas = usuario.encuestas
+    #     render json: @encuestas
+    # end
+
     def index
-        usuario = Usuario.find(params[:usuario_id])
-        @encuestas = usuario.encuestas
-        render json: @encuestas
-    end
+      usuario = Usuario.find(params[:usuario_id])
+      @encuestas = usuario.encuestas.includes(:personalizacion_encuesta).map do |encuesta|
+          encuesta.as_json.merge({ imagen: encuesta.personalizacion_encuesta.imagen })
+      end
+      render json: @encuestas
+     end
 
     def show
       begin
