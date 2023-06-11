@@ -4,20 +4,20 @@ VALUES
   ('Juan Perez', 'juanperez@email.com', '$2a$12$IsuBRwBR3xn0tgwqg.zly.Kyk3vb2g3lHYRFVvXmJXxlM4fvdIMB6', true, NOW(), NOW()), /* contra:juan123 */
   ('Felipe Herrrera', 'felipeherrera@email.com', '$2a$12$KnJJLEzxgZeM5MgWHjfo3OENPDQEDVssK.lSzPDIuHwx/3gVu6pju', false, NOW(), NOW()); /* contra:felipe123 */
 
-INSERT INTO tipo_pregunta (descripcion_tipo) VALUES
-  ('Pregunta Abierta'),
-  ('Elección Única'),
-  ('Elección Multiple'),
-  ('Escala Numerica'),
-  ('Escala Nominal'),
-  ('Escala Likert'),
-  ('Ranking'),
-  ('Mixta');
+INSERT INTO tipo_pregunta (pk_tipo,descripcion_tipo) VALUES
+  (1, 'Pregunta Abierta'),
+  (2, 'Elección Única'),
+  (3, 'Elección Multiple'),
+  (4, 'Escala Numerica'),
+  (5, 'Escala Nominal'),
+  (6, 'Escala Likert'),
+  (7, 'Ranking'),
+  (8, 'Mixta');
 
-INSERT INTO generos (valor_genero, created_at, updated_at) VALUES
-  ('Masculino', NOW(), NOW()),
-  ('Femenino', NOW(), NOW()),
-  ('Prefiero no contestar', NOW(), NOW());
+INSERT INTO generos (id, valor_genero, created_at, updated_at) VALUES
+  (1, 'Masculino', NOW(), NOW()),
+  (2, 'Femenino', NOW(), NOW()),
+  (3, 'Prefiero no contestar', NOW(), NOW());
 
 
 /*ENCUESTA 1*/
