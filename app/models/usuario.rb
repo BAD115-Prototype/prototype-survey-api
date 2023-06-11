@@ -6,7 +6,7 @@ class Usuario < ApplicationRecord
     validates_uniqueness_of :email
 
     has_many :encuestas, foreign_key: 'usuario_id'
-
+    has_and_belongs_to_many :rols, join_table: :rol_usuarios
     #before_save :validar_intentos 
 
     #private
