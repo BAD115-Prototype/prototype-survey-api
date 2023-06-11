@@ -1,4 +1,6 @@
 class EncuestasController < ApplicationController
+  include CurrentUserConcern
+  before_action :authenticate_user!, only: [:index, :update, :create]
   def create
     usuario = Usuario.find(params[:usuario_id])
     
@@ -22,19 +24,33 @@ class EncuestasController < ApplicationController
 
     def index
       current_url = request.fullpath
+      permitir=false
       if current_user
-        puts "-----------------------"
-        current_user=current_user
-        puts current_url
+        ##Verificando si tiene el rol
+        roles = @current_user['rols']
+        roles.each do |rol|
+          rol['permisos'].each do |permiso|
+            permiso['pantallas'].each do |pantalla|
+              custom_url = pantalla['url_pantalla'].gsub("idUsuario", @current_user['id'].to_s)
+              if current_url === custom_url
+                permitir=true
+              end
+            end
+          end
+        end
         puts "--------------------------"
 
       end
-     
-      usuario = Usuario.find(params[:usuario_id])
-      @encuestas = usuario.encuestas.includes(:personalizacion_encuesta).map do |encuesta|
-          encuesta.as_json.merge({ imagen: encuesta.personalizacion_encuesta.imagen })
+      
+      if permitir
+        usuario = Usuario.find(params[:usuario_id])
+        @encuestas = usuario.encuestas.includes(:personalizacion_encuesta).map do |encuesta|
+            encuesta.as_json.merge({ imagen: encuesta.personalizacion_encuesta.imagen })
+        end
+        render json: @encuestas
+      else
+        render json: { error: 'Unauthorized' }, status: :unauthorized
       end
-      render json: @encuestas
      end
 
     def show
