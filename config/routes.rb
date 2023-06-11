@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :resultados, only: [:index]
     resources :preguntas, only: [:create, :index, :show, :update, :destroy]
     resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
+    get 'reports/generate_excel'
   end
 
   #Tipo preguntas
