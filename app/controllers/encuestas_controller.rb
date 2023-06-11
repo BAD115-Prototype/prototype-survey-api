@@ -23,7 +23,8 @@ class EncuestasController < ApplicationController
     # end
 
     def index
-      current_url = request.fullpath
+      http_method = request.method
+      current_url = "#{http_method}:#{request.fullpath}"
       permitir=false
       if current_user
         ##Verificando si tiene el rol
