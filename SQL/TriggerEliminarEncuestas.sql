@@ -16,12 +16,15 @@ BEGIN
 
     -- Eliminar encuestados
     DELETE FROM encuestados WHERE fk_encuesta_id = OLD.pk_encuesta;
-
-    -- Eliminar preguntas
-    DELETE FROM preguntas WHERE encuesta_id = OLD.pk_encuesta;
-
-    -- Eliminar opcion_respuestas
+   
+   -- Eliminar opcion_respuestas
     DELETE FROM opcion_respuestas WHERE fk_pregunta_id IN (
         SELECT pk_pregunta FROM preguntas WHERE encuesta_id = OLD.pk_encuesta
     );
+
+    -- Eliminar preguntas
+    DELETE FROM preguntas WHERE encuesta_id = OLD.pk_encuesta;
+   
+   -- Eliminar personalizacion_encuestas
+    DELETE FROM personalizacion_encuestas WHERE encuesta_id = OLD.pk_encuesta;
 END
