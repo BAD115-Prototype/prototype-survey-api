@@ -1,16 +1,41 @@
 class UsuariosController < ApplicationController
+    include CurrentUserConcern
     def index
-        @users=Usuario.order('created_at').page(params[:page]).per(10)
+        @users=Usuario.includes(:rols).order('created_at')
+        json_data = @users.as_json(include: :rols)
         render json: {
-            users: @users,
-            current_page: @users.current_page,
-            total_pages: @users.total_pages,
-            total_count: @users.total_count
+            status: 'Exitoso',
+            users: json_data,
+          }
+    end
+    def show
+        @users=Usuario.includes(:rols).find(params[:id])
+        json_data = @users.as_json(include: :rols)
+        render json: {
+            status: 'Exitoso',
+            users: json_data,
           }
     end
     def update
-        if user
-
+        usuario = Usuario.find(params[:id])
+        usuario.update(
+            nombre_usuario:params[:nombre_usuario],
+            activo: params[:activo]
+        )
+        
+        #Eliminando roles antiguos
+        usuario.rols.clear
+        #Asignando roles
+        roles_id=[]
+        rolsAsig=params[:permisosRight]
+        rolsAsig.each do |rolA|
+            roles_id  << rolA['pk_rol']
         end
+        usuario.rol_ids=roles_id
+
+        render json: {
+            status: 'Exitoso',
+            data: usuario,
+          }
     end
 end

@@ -21,6 +21,15 @@ class EncuestasController < ApplicationController
     # end
 
     def index
+      current_url = request.fullpath
+      if current_user
+        puts "-----------------------"
+        current_user=current_user
+        puts current_url
+        puts "--------------------------"
+
+      end
+     
       usuario = Usuario.find(params[:usuario_id])
       @encuestas = usuario.encuestas.includes(:personalizacion_encuesta).map do |encuesta|
           encuesta.as_json.merge({ imagen: encuesta.personalizacion_encuesta.imagen })
