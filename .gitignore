@@ -49,3 +49,5 @@ env
 #uploads
 public/uploads/*
 !public/uploads/survey.png
+!public/uploads/1686462662.jpg
+!public/uploads/1686467530.jpg
