@@ -18,6 +18,11 @@ gem "dotenv-rails"
 #MYSQL Adapter
 gem 'mysql2'
 
+#Generar excel
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx'
+gem 'axlsx_rails'
+
 #Paginación
 gem 'kaminari'
 gem 'api-pagination'
