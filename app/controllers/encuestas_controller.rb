@@ -1,20 +1,45 @@
 class EncuestasController < ApplicationController
   include CurrentUserConcern
   before_action :authenticate_user!, only: [:index, :update, :create]
-  def create
-    usuario = Usuario.find(params[:usuario_id])
-    
-    @encuesta = usuario.encuestas.build(encuesta_create_params)
-    @encuesta.fecha_creacion_encuesta = DateTime.now
-    @encuesta.fecha_actualizacion_encuesta = DateTime.now
-    @encuesta.link_encuesta = generate_unique_link
 
-    if @encuesta.save
-      render json: @encuesta, status: :created
+  def create
+    http_method = request.method
+    current_url = "#{http_method}:#{request.fullpath}"
+    permitir = false
+    if current_user
+      ## Verificando si tiene el rol
+      roles = @current_user['rols']
+      roles.each do |rol|
+        rol['permisos'].each do |permiso|
+          permiso['pantallas'].each do |pantalla|
+            custom_url = pantalla['url_pantalla'].gsub("idUsuario", @current_user['id'].to_s)
+            puts(custom_url)
+            puts(current_url)
+            if current_url === custom_url
+              permitir = true
+            end
+          end
+        end
+      end
+    end
+    
+    if permitir
+      usuario = Usuario.find(params[:usuario_id])
+      @encuesta = usuario.encuestas.build(encuesta_create_params)
+      @encuesta.fecha_creacion_encuesta = DateTime.now
+      @encuesta.fecha_actualizacion_encuesta = DateTime.now
+      @encuesta.link_encuesta = generate_unique_link
+
+      if @encuesta.save
+        render json: @encuesta, status: :created
+      else
+        render json: { error: 'No se pudo crear la encuesta' }, status: :unprocessable_entity
+      end
     else
-      render json: { error: 'No se pudo crear la encuesta' }, status: :unprocessable_entity
+      render json: { error: 'Unauthorized' }, status: :unauthorized
     end
   end
+
 
     # def index
     #     usuario = Usuario.find(params[:usuario_id])
@@ -66,36 +91,89 @@ class EncuestasController < ApplicationController
     end
 
     def update
-      usuario = Usuario.find(params[:usuario_id])
-      @encuesta = usuario.encuestas.find_by(pk_encuesta: params[:id])
+      http_method = request.method
+      current_url = "#{http_method}:#{request.fullpath}"
+      permitir = false
     
-      if @encuesta
-        @encuesta.fecha_actualizacion_encuesta = DateTime.now
-
-        if @encuesta.update(encuesta_params)
-          render json: @encuesta
+      if current_user
+        ## Verificando si tiene el rol
+        roles = @current_user['rols']
+        roles.each do |rol|
+          rol['permisos'].each do |permiso|
+            permiso['pantallas'].each do |pantalla|
+              custom_url = pantalla['url_pantalla'].gsub("idUsuario", @current_user['id'].to_s)
+              if pantalla['url_pantalla'].include?("idEncuesta")
+                custom_url = custom_url.gsub("idEncuesta", params[:id].to_s)
+              end
+              if current_url === custom_url
+                permitir = true
+              end
+            end
+          end
+        end
+      end
+    
+      if permitir
+        usuario = Usuario.find(params[:usuario_id])
+        @encuesta = usuario.encuestas.find_by(pk_encuesta: params[:id])
+    
+        if @encuesta
+          @encuesta.fecha_actualizacion_encuesta = DateTime.now
+    
+          if @encuesta.update(encuesta_params)
+            render json: @encuesta
+          else
+            render json: { error: 'No se pudo actualizar la encuesta' }, status: :unprocessable_entity
+          end
         else
-          render json: { error: 'No se pudo actualizar la encuesta' }, status: :unprocessable_entity
+          render json: { error: 'Encuesta no encontrada' }, status: :not_found
         end
       else
-        render json: { error: 'Encuesta no encontrada' }, status: :not_found
+        render json: { error: 'Unauthorized' }, status: :unauthorized
       end
     end
+    
 
     def destroy
-      usuario = Usuario.find(params[:usuario_id])
-      @encuesta = usuario.encuestas.find_by(pk_encuesta: params[:id])
-  
-      if @encuesta
-         # Eliminar la PersonalizacionEncuesta asociada, si existe
-        @encuesta.personalizacion_encuesta&.destroy
-        # Eliminar la Encuesta
-        @encuesta.destroy
-        render json: { message: 'Encuesta eliminada exitosamente' }
+      http_method = request.method
+      current_url = "#{http_method}:#{request.fullpath}"
+      permitir = false
+    
+      if current_user
+        ## Verificando si tiene el rol
+        roles = @current_user['rols']
+        roles.each do |rol|
+          rol['permisos'].each do |permiso|
+            permiso['pantallas'].each do |pantalla|
+              custom_url = pantalla['url_pantalla'].gsub("idUsuario", @current_user['id'].to_s)
+              if pantalla['url_pantalla'].include?("idEncuesta")
+                custom_url = custom_url.gsub("idEncuesta", params[:id].to_s)
+              end
+              if current_url === custom_url
+                permitir = true
+              end
+            end
+          end
+        end
+      end
+      
+      if permitir
+        usuario = Usuario.find(params[:usuario_id])
+        @encuesta = usuario.encuestas.find_by(pk_encuesta: params[:id])
+        if @encuesta
+          # Eliminar la PersonalizacionEncuesta asociada, si existe
+          @encuesta.personalizacion_encuesta&.destroy
+          # Eliminar la Encuesta
+          @encuesta.destroy
+          render json: { message: 'Encuesta eliminada exitosamente' }
+        else
+          render json: { error: 'Encuesta no encontrada' }, status: :not_found
+        end
       else
-        render json: { error: 'Encuesta no encontrada' }, status: :not_found
+        render json: { error: 'Unauthorized' }, status: :unauthorized
       end
     end
+    
     
       
     private
