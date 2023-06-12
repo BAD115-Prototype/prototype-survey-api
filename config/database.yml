@@ -27,5 +27,5 @@ test:
 
 production:
   <<: *default
-  database: production
+  database: test-5
 
