@@ -3,26 +3,34 @@ class PantallasController < ApplicationController
   
     def index
       if (params[:permiso_id] != nil)
-
-        #Obteniendo pantallas por permiso
-        permiso = Permiso.find(params[:permiso_id])      
-        @pantallas = Permiso.includes(:pantallas).where(pk_permiso: permiso.pk_permiso)
-        json_data = @pantallas.as_json(include: :pantallas)
-    
+        permitido = verificar_url_permiso(request, @current_user, params)
+        if permitido
+          #Obteniendo pantallas por permiso
+          permiso = Permiso.find(params[:permiso_id])      
+          @pantallas = Permiso.includes(:pantallas).where(pk_permiso: permiso.pk_permiso)
+          json_data = @pantallas.as_json(include: :pantallas)
           render json: {
-          status: 'Exitoso',
-          message: 'Pantallas Cargadas',
-          data: json_data
-          }, status: :ok
-        
+            status: 'Exitoso',
+            message: 'Pantallas Cargadas',
+            data: json_data
+            }, status: :ok
+        else
+          render json: { error: 'Unauthorized' }, status: :unauthorized
+        end
       else
-        #Obteniendo pantallas
-        pantallas=Pantalla.order('created_at')
-        render json: {
-          status: 'Exitoso',
-          message: 'Pantallas Cargadas',
-          data: pantallas
-        }, status: :ok
+        #Verificar url
+        permitido = verificar_url(request, @current_user)
+        if permitido
+          #Obteniendo pantallas
+          pantallas=Pantalla.order('created_at')
+          render json: {
+            status: 'Exitoso',
+            message: 'Pantallas Cargadas',
+            data: pantallas
+          }, status: :ok
+        else
+          render json: { error: 'Unauthorized' }, status: :unauthorized
+        end
       end
     end
   
@@ -139,6 +147,46 @@ class PantallasController < ApplicationController
     private
       def pantalla_params
           params.permit(:nombre_pantalla, :url_pantalla)
+      end
+      def verificar_url(request, current_user)
+        http_method = request.method
+        current_url = "#{http_method}:#{request.fullpath}"
+        permitir = false 
+        if current_user
+          roles = current_user['rols']        
+          roles.each do |rol|
+            rol['permisos'].each do |permiso|
+              permiso['pantallas'].each do |pantalla|
+                custom_url = pantalla['url_pantalla'].gsub("idUsuario", current_user['id'].to_s)
+                if current_url == custom_url
+                  permitir = true
+                end
+              end
+            end
+          end
+        end   
+        return permitir
+      end
+      
+      def verificar_url_permiso(request, current_user, params)
+        http_method = request.method
+        current_url = "#{http_method}:#{request.fullpath}"
+        permitir = false
+        
+        if current_user
+          roles = current_user['rols']  
+          roles.each do |rol|
+            rol['permisos'].each do |permiso|
+              permiso['pantallas'].each do |pantalla|
+                custom_url = pantalla['url_pantalla'].gsub("idPermiso", params[:permiso_id].to_s)
+                if current_url == custom_url
+                  permitir = true
+                end
+              end
+            end
+          end
+        end   
+        return permitir
       end
   end
   
