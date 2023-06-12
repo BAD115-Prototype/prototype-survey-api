@@ -20,10 +20,14 @@ class SessionsController < ApplicationController
       }
       end
     else
-       # Incrementar el contador de intentos fallidos
-       incrementar_intentos_fallidos(params["user"]["email"])
-
-      render json: { status: 401 }
+      # Incrementar el contador de intentos fallidos
+      incrementar_intentos_fallidos(params["user"]["email"])
+      # Verificar si el usuario ha alcanzado el límite de intentos fallidos (3 intentos)
+        if intentos_fallidos_excedidos?(params["user"]["email"])
+          render json: { status: 401, message: "Has excedido el límite de intentos fallidos. Tu cuenta ha sido bloqueada. Por favor, contacta al administrador." }
+        else
+          render json: { status: 401, message: "Credenciales incorrectas" }
+        end
     end
   end
 
@@ -47,13 +51,19 @@ class SessionsController < ApplicationController
 
   private
 
+  def intentos_fallidos_excedidos?(email)
+    user = Usuario.find_by(email: email)
+    return false unless user
+
+    intentos_actuales = user.intentos || 0
+    intentos_actuales >= 3
+  end
+
   def incrementar_intentos_fallidos(email)
     user = Usuario.find_by(email: email)
     return unless user
 
     intentos_actuales = user.intentos || 0
     user.update(intentos: intentos_actuales + 1)
-
-   
   end
 end
