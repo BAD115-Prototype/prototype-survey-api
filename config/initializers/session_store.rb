@@ -1,1 +1,0 @@
-Rails.application.config.session_store :CookieStore, key:"_authentication_app"
