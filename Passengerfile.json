@@ -1,0 +1,5 @@
+{
+  "app_type": "rack",
+  "startup_file": "config.ru"
+}
+

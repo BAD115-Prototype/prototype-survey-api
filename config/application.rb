@@ -8,12 +8,17 @@ Bundler.require(*Rails.groups)
 
 module PrototypeSurveyApi
   class Application < Rails::Application
-    config.middleware.use ActionDispatch::Cookies    
-    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::Cookies
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    if 'true'===ENV['SSL']
+      config.middleware.use ActionDispatch::Session::CookieStore, same_site: :none
+      config.force_ssl = true
+    else
+      config.middleware.use ActionDispatch::Session::CookieStore
+    end
 
+    config.load_defaults 7.0
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
