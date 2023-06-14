@@ -8,6 +8,7 @@ class RegistrationsController < ApplicationController
         activo: true,
         intentos: 0
     )
+    user.rol_ids=2 ###Usuario 2 == usuario_normal
 
     if user
         session[:user_id]=user.id
