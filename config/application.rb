@@ -16,7 +16,9 @@ module PrototypeSurveyApi
       config.force_ssl = true
     else
       config.middleware.use ActionDispatch::Session::CookieStore
-      config.action_mailer.delivery_method = :smtp
+    end
+
+    config.action_mailer.delivery_method = :smtp
       config.action_mailer.smtp_settings = {
         address: 'smtp.office365.com',
         port: 587,
@@ -26,7 +28,6 @@ module PrototypeSurveyApi
         authentication: :login,
         enable_starttls_auto: true
       }
-    end
 
     config.load_defaults 7.0
     # Configuration for the application, engines, and railties goes here.
