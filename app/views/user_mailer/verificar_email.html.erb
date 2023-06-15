@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Plantilla de correo electrónico</title>
+  <style>
+    /* Estilos generales */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Franjas */
+    .gray-section {
+      background-color: #263238;
+      padding: 20px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .white-section {
+      background-color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Cuadrado */
+    .square {
+      width: 100px;
+      height: 100px;
+      background-color: #cccccc;
+      margin: 0 auto;
+      text-align: center;
+      line-height: 100px;
+    }
+    /* Imagen */
+    .image-container {
+      max-width: 80%;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="gray-section">
+    <img class="image-container" src="https://prototype.code-rm.tk/uploads/logo.png" alt="Imagen">
+  </div>
+
+  <div class="white-section">
+      <p>Gracias por registrarse <strong> <%= @nombre %>. </strong></p>
+      <p>Por favor, valide su correo con el siguiente token:</p>
+      <p><a href="https://prototype.code-rm.tk/verificar/<%= @token %>">Verificar correo electrónico</a></p>
+  </div>
+
+  <div class="gray-section">
+    <div>prototype - Survey</div>
+  </div>
+</body>
+</html>

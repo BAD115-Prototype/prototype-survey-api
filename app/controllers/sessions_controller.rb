@@ -18,6 +18,8 @@ class SessionsController < ApplicationController
           logged_in: true,
           user: user
       }
+      else
+        render json: { status: 401, message: "Usuario no activado" }
       end
     else
       # Incrementar el contador de intentos fallidos
