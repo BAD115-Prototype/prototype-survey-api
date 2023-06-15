@@ -49,8 +49,40 @@ class PreguntasController < ApplicationController
     def edit
     end
 
-    def update
+    def bulk_update
+        encuesta = Encuesta.find(params[:encuesta_id])
+        preguntas = params[:preguntas]
+        @request = ""
+        preguntas.each do |pregunta|
+            # Buscando la pregunta
+            preguntaExistente = Pregunta.find(pregunta["pk_pregunta"])
+            if preguntaExistente.update(
+                texto_pregunta: pregunta["texto_pregunta"],
+                campo_obligatorio: pregunta["campo_obligatorio"],
+                tipo_pregunta_id: pregunta["tipo_pregunta_id"]
+            )
+                # Actualizando opciones de pregunta
+                pregunta["opcionRespuestas"].each do |opcion|
+                    opcionExistente = OpcionRespuesta.find(opcion["pk_opcion_respuesta"])
+                    if opcionExistente.update(
+                        fk_pregunta_id: preguntaExistente.id,
+                        texto_opcion: opcion["texto_opcion"]
+                    )
+                        @request = "Se actualizaron todas las preguntas"
+                    else
+                        @request = "Ocurrió un error en pregunta " + preguntaExistente.id.to_s
+                    end
+                end
+            else
+                @request = "Ocurrió un error al actualizar la pregunta " + preguntaExistente.id.to_s
+            end
+        end
+        render json: {
+            status: 'Exitoso',
+            message: @request,
+        }, status: :ok
     end
+    
 
     def destroy
     end
