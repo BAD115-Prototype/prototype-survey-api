@@ -14,8 +14,9 @@ class RegistrationsController < ApplicationController
 
     if user
         ##Enviando email
+        
+
         UserMailer.verificar_email(params['user']['email'], params['user']['nombre'], token).deliver_now
-        session[:user_id]=user.id
         render json: {
             status: :created,
             user: user
