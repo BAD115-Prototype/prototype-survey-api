@@ -35,7 +35,7 @@ class RegistrationsController < ApplicationController
       # Actualizar el estado de verificación del correo electrónico del usuario
       user.update(activo: true)
       flash[:success] = '¡Tu correo electrónico ha sido verificado correctamente!'
-      redirect_to 'https://prototype-survey.web.app/'
+      redirect_to 'https://prototype-survey.web.app/', allow_other_host: true
     else
       flash[:error] = 'El enlace de verificación no es válido. Por favor, verifica tu correo electrónico nuevamente.'
     end
