@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   resources :permisos, only: [:show] do
     resources :pantallas, only: [:index, :create]
   end
+  get '/send_email', to: 'email#send_email'
+  get '/verificar/:token', to: 'registrations#verify_email', as: 'verify_email'
 
 end
 
