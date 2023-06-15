@@ -28,6 +28,10 @@ class PersonalizacionEncuestaController < ApplicationController
     def update
       encuesta = Encuesta.find(params[:encuesta_id])
       personalizacion_encuesta = encuesta.personalizacion_encuesta
+
+       # Procesamos la imagen (si es un archivo, la subimos; si es una URL, la dejamos como está)
+      ruta_imagen = upload_file
+      params[:imagen] = ruta_imagen
   
       if personalizacion_encuesta.update(personalizacion_encuesta_update_params)
         render json: personalizacion_encuesta
@@ -39,6 +43,9 @@ class PersonalizacionEncuestaController < ApplicationController
   # Archivos
   def upload_file
     file = params[:imagen] # archivo enviado desde el formulario
+
+    # Si file es una cadena, la retornamos tal cual
+  return file if file.is_a?(String)
 
     return "" if file == ""
 

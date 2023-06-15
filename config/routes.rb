@@ -23,7 +23,11 @@ Rails.application.routes.draw do
       resource :respuestas
     end
     resources :resultados, only: [:index]
-    resources :preguntas, only: [:create, :index, :show, :update, :destroy]
+    resources :preguntas, only: [:create, :index, :show, :destroy] do
+      collection do
+        put :bulk_update
+      end
+    end
     resources :opcion_respuestas, only: [:create, :index, :show, :update, :destroy]
     get 'reports/generate_excel'
   end
